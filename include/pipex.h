@@ -6,7 +6,7 @@
 /*   By: sadjigui <sadjigui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 16:15:05 by sadjigui          #+#    #+#             */
-/*   Updated: 2022/01/05 17:59:22 by sadjigui         ###   ########.fr       */
+/*   Updated: 2022/01/11 19:08:58 by sadjigui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ int		main(int ac, char **av, char **env);
 
 void	child(int *pipefd, char **av, char **env);
 void	parent(int *pipefd, char **av, char **env);
+void	ft_free(char **str);
+void	norme(char **all_path, char **exe);
+void	norme2(char **exe, char *cmd, char **env);
 
 char	*find_cmd(char *path_cmds, char **exe);
 char	*find_path_cmd(char **env);

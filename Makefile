@@ -6,7 +6,8 @@ FLAGS    = -Wall -Wextra -Werror -g
 
 DEL = /bin/rm -f
 
-SRCS =     ./srcs/pipex.c
+SRCS =     ./srcs/pipex.c \
+			./srcs/utils.c
 
 SRCS_O    = ${SRCS:.c=.o}
 all: $(NAME)

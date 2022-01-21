@@ -6,7 +6,7 @@
 /*   By: sadjigui <sadjigui@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/14 16:05:01 by sadjigui          #+#    #+#             */
-/*   Updated: 2022/01/05 17:31:28 by sadjigui         ###   ########.fr       */
+/*   Updated: 2022/01/11 19:17:31 by sadjigui         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,27 @@ char	*find_cmd(char *path_cmds, char **exe)
 	char	*the_good_one;
 	char	*full_path;
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	all_path = ft_split(path_cmds, ':');
-	while (all_path[i])
-	{
-		the_good_one = ft_strdup(all_path[i]);
-		the_good_one = ft_strjoin(all_path[i], "/");
-		full_path = ft_strjoin(the_good_one, exe[0]);
-		free(the_good_one);
-		if (access(full_path, F_OK) == 0)
-			return (full_path);
-		i++;
-	}
+	norme(all_path, exe);
 	if (access(exe[0], F_OK) == 0)
 		return (exe[0]);
-	perror("ERROR ");
-	exit(1);
+	while (all_path[i])
+	{
+		the_good_one = ft_strjoin(all_path[i], "/");
+		tmp = ft_strdup(the_good_one);
+		full_path = ft_strjoin(tmp, exe[0]);
+		free(the_good_one);
+		free(tmp);
+		if (access(full_path, F_OK) == 0)
+			return (full_path);
+		free(full_path);
+		i++;
+	}
+	ft_free(all_path);
+	return ("<");
 }
 
 void	child(int *pipefd, char **av, char **env)
@@ -66,7 +70,7 @@ void	child(int *pipefd, char **av, char **env)
 	dup2(pipefd[1], 1);
 	dup2(fd, 0);
 	close(pipefd[0]);
-	execve(cmd, exe, env);
+	norme2(exe, cmd, env);
 }
 
 void	parent(int *pipefd, char **av, char **env)
@@ -88,7 +92,7 @@ void	parent(int *pipefd, char **av, char **env)
 	dup2(pipefd[0], 0);
 	dup2(fd, 1);
 	close(pipefd[1]);
-	execve(cmd, exe, env);
+	norme2(exe, cmd, env);
 }
 
 int	main(int ac, char **av, char **env)
